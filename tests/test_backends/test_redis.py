@@ -15,12 +15,12 @@ class TestRedisPubSub(unittest.TestCase):
         subscriber = self.pubsub.subscribe('a_chan')
         self.pubsub.publish('a_chan', 'hello world!')
         self.pubsub.publish('a_chan', 'hello universe!')
-        assert next(subscriber) == 'hello world!'
-        assert next(subscriber) == 'hello universe!'
+        assert next(subscriber) == b'hello world!'
+        assert next(subscriber) == b'hello universe!'
 
     def test_subscribe_multiple_chan(self):
         subscriber = self.pubsub.subscribe(['a_chan', 'b_chan'])
         self.pubsub.publish('a_chan', 'hello world!')
         self.pubsub.publish('b_chan', 'hello universe!')
-        assert next(subscriber) == 'hello world!'
-        assert next(subscriber) == 'hello universe!'
+        assert next(subscriber) == b'hello world!'
+        assert next(subscriber) == b'hello universe!'
