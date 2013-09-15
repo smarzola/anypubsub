@@ -23,7 +23,7 @@ requires = []
 setup(
     name='anypubsub',
     version='0.1',
-    description="",
+    description="A generic interface wrapping multiple different backends to provide a consistent pubsub API.",
     long_description=README,
     # Get strings from http://pypi.python.org/pypi?%3Aaction=list_classifiers
     classifiers=[
