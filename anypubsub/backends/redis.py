@@ -1,3 +1,10 @@
+from anypubsub import ConfigurationError
+
+try:
+    from urlparse import urlparse
+except ImportError:
+    from urllib.parse import urlparse
+
 from anypubsub.interfaces import Subscriber, PubSub
 
 
@@ -19,9 +26,8 @@ class RedisSubscriber(Subscriber):
 
 class RedisPubSub(PubSub):
     def __init__(self, host='localhost', port=6379,
-                 db=0, password=None, socket_timeout=None,
-                 connection_pool=None, charset='utf-8',
-                 errors='strict', decode_responses=False):
+                 db=0, password=None, max_connections=None,
+                 connection_pool=None):
         self.api = RedisPubSub._api()
         if connection_pool is None:
             kwargs = {
@@ -29,13 +35,27 @@ class RedisPubSub(PubSub):
                 'port': port,
                 'db': db,
                 'password': password,
-                'socket_timeout': socket_timeout,
-                'encoding': charset,
-                'encoding_errors': errors,
-                'decode_responses': decode_responses
+                'max_connections': max_connections
             }
+            if kwargs['host'].startswith('redis'):
+                kwargs = RedisPubSub.parse_url(**kwargs)
             connection_pool = self.api.ConnectionPool(**kwargs)
         self.connection_pool = connection_pool
+
+    @staticmethod
+    def parse_url(**kwargs):
+        url = urlparse(kwargs['host'])
+        if url.scheme != 'redis':
+            raise ConfigurationError('Invalid redis uri scheme: %s' % url.scheme)
+        db = kwargs.pop('db')
+        if not db:
+            try:
+                db = int(url.path.replace('/', ''))
+            except (AttributeError, ValueError):
+                db = 0
+        kwargs.update({'host': url.hostname, 'port': int(url.port or 6379),
+                       'db': db, 'password': url.password})
+        return kwargs
 
     @staticmethod
     def _api():
@@ -49,5 +69,6 @@ class RedisPubSub(PubSub):
 
     def subscribe(self, *channels):
         return RedisSubscriber(self._get_connection(), channels)
+
 
 backend = RedisPubSub

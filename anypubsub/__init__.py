@@ -1,1 +1,1 @@
-from anypubsub.pubsub import create_pubsub, create_pubsub_from_settings
+from anypubsub.pubsub import create_pubsub, create_pubsub_from_settings, ConfigurationError

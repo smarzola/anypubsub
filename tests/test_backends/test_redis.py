@@ -11,6 +11,14 @@ class TestRedisPubSub(unittest.TestCase):
         subscriber = self.pubsub.subscribe('a_chan')
         assert isinstance(subscriber, RedisSubscriber)
 
+    def test_redis_from_url(self):
+        self.pubsub = None
+        from anypubsub import create_pubsub
+        self.pubsub = create_pubsub('redis', host='redis://localhost:6379/0')
+        from anypubsub.backends.redis import RedisSubscriber
+        subscriber = self.pubsub.subscribe('a_chan')
+        assert isinstance(subscriber, RedisSubscriber)
+
     def test_pubsub(self):
         subscriber = self.pubsub.subscribe('a_chan')
         self.pubsub.publish('a_chan', 'hello world!')
