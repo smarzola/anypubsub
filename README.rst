@@ -42,3 +42,4 @@ Supported backends
 ---------------------
 
 * redis
+* mongodb

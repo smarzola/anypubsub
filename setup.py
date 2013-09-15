@@ -47,18 +47,19 @@ setup(
     zip_safe=False,
     install_requires=requires,
     extras_require={
+        'redis': [
+            'redis',
+        ],
         'mongodb': [
             'pymongo',
         ],
-        'redis': [
-            'redis',
-        ]
     },
     test_suite='nose.collector',
     tests_require = [
         'nose',
+        'mock',
         'redis',
-        'mock'
+        'pymongo',
     ],
     entry_points="""\
     """,

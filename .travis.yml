@@ -7,5 +7,6 @@ python:
 
 services:
   - redis-server
+  - mongodb
 
 script: "python setup.py nosetests"

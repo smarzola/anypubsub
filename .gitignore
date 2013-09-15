@@ -30,7 +30,7 @@ nosetests.xml
 *.mo
 
 # Virtualenv
-env/*
+env*
 
 # Pycharm
 .idea/*
