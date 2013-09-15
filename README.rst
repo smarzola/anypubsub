@@ -1,7 +1,8 @@
 anypubsub
 =========
 
-.. image:: https://travis-ci.org/simock85/anypubsub.png?branch=master   :target: https://travis-ci.org/simock85/anypubsub
+.. image:: https://travis-ci.org/simock85/anypubsub.png?branch=master
+   :target: https://travis-ci.org/simock85/anypubsub
 
 A generic interface wrapping multiple different backends to provide a consistent pubsub API.
 
