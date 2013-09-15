@@ -42,6 +42,5 @@ def create_pubsub_from_settings(settings, prefix='', **kwargs):
     for k, v in settings.items():
         if k.startswith(prefix):
             kwargs[k[plen:]] = v
-    print kwargs
     name = kwargs.pop('backend')
     return create_pubsub(name, **kwargs)
