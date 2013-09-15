@@ -41,7 +41,7 @@ setup(
     keywords='',
     author='Simone Marzola',
     author_email='marzolasimone@gmail.com',
-    url='',
+    url='http://github.com/simock85/anypubsub',
     packages=find_packages(),
     include_package_data=True,
     zip_safe=False,
