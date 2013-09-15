@@ -7,5 +7,5 @@ class PubSub(object):
     def public(self, channel, message):
         raise NotImplementedError
 
-    def subscribe(self, channels):
+    def subscribe(self, *channels):
         raise NotImplementedError

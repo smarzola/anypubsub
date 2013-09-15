@@ -1,16 +1,8 @@
 from anypubsub.interfaces import Subscriber, PubSub
 
-try:
-    basestring
-except NameError:
-    # PY3
-    basestring = str
-
 
 class RedisSubscriber(Subscriber):
     def __init__(self, connection, channels):
-        if isinstance(channels, basestring):
-            channels = [channels]
         self.pubsub = connection.pubsub()
         self.pubsub.subscribe(channels)
 
@@ -55,7 +47,7 @@ class RedisPubSub(PubSub):
     def publish(self, channel, message):
         self._get_connection().publish(channel, message)
 
-    def subscribe(self, channels):
+    def subscribe(self, *channels):
         return RedisSubscriber(self._get_connection(), channels)
 
 backend = RedisPubSub
