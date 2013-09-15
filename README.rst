@@ -4,7 +4,7 @@ anypubsub
 .. image:: https://travis-ci.org/simock85/anypubsub.png?branch=master
    :target: https://travis-ci.org/simock85/anypubsub
 
-A generic interface wrapping multiple different backends to provide a consistent pubsub API.
+A generic interface wrapping multiple backends to provide a consistent pubsub API.
 
 
 Usage
@@ -14,6 +14,11 @@ Create a pubsub object::
 
     from anypubsub import create_pubsub
     pubsub = create_pubsub('redis')
+
+or create a pubsub object from settings::
+
+    from anypubsub import create_pubsub_from_settings
+    pubsub = create_pubsub_from_settings(({'anypubsub.backend': 'redis'}, prefix='anypubsub.')
 
 Subscribe to a channel::
 

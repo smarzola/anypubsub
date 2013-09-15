@@ -20,8 +20,7 @@ def _load_backend(name):
         module = _load_entry_point(name)
         if module is not None:
             return module
-        raise ConfigurationError(
-            'Could not determine backend for "%s"' % name)
+        raise ConfigurationError('Could not determine backend for "%s"' % name)
 
 
 def _load_entry_point(name):
@@ -43,5 +42,6 @@ def create_pubsub_from_settings(settings, prefix='', **kwargs):
     for k, v in settings.items():
         if k.startswith(prefix):
             kwargs[k[plen:]] = v
-    name = kwargs.pop('pubsub')
+    print kwargs
+    name = kwargs.pop('backend')
     return create_pubsub(name, **kwargs)
