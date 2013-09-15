@@ -18,7 +18,7 @@ Create a pubsub object::
 or create a pubsub object from settings::
 
     from anypubsub import create_pubsub_from_settings
-    pubsub = create_pubsub_from_settings(({'anypubsub.backend': 'redis'}, prefix='anypubsub.')
+    pubsub = create_pubsub_from_settings({'anypubsub.backend': 'redis'}, prefix='anypubsub.')
 
 Subscribe to a channel::
 
