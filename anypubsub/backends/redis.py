@@ -45,7 +45,7 @@ class RedisPubSub(PubSub):
         return self.api.Redis(connection_pool=self.connection_pool)
 
     def publish(self, channel, message):
-        self._get_connection().publish(channel, message)
+        return self._get_connection().publish(channel, message)
 
     def subscribe(self, *channels):
         return RedisSubscriber(self._get_connection(), channels)

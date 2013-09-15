@@ -24,3 +24,9 @@ class TestRedisPubSub(unittest.TestCase):
         self.pubsub.publish('b_chan', 'hello universe!')
         assert next(subscriber) == b'hello world!'
         assert next(subscriber) == b'hello universe!'
+
+    def test_dispose_subscriber(self):
+        subscriber = self.pubsub.subscribe('a_chan')
+        assert self.pubsub.publish('a_chan', 'hello world!') == 1
+        del subscriber
+        assert self.pubsub.publish('a_chan', 'hello world!') == 0
