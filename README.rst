@@ -48,22 +48,20 @@ Supported backends
 Backend specific optional settings
 -----------------------------------
 
-redis
-"""""""
+redis::
 
-:host: hostname or full redis url, default: ``localhost``
-:port: default ``6379``
-:db: default ``0``
-:max_connections: connection pool max connections
-:connection_pool: an already created redis-py ConnectionPool
+    host: hostname or full redis url, default: localhost
+    port: default 6379
+    db: default 0
+    max_connections: connection pool max connections
+    connection_pool: an already created redis-py ConnectionPool
 
-mongodb
-"""""""""
+mongodb::
 
-:host: hostname or full mongodb url
-:port: mongodb port
-:max-pool-size: connection pool max connections
-:client: an already created pymongo MongoClient
-:database: database used to store messages, default ``anypubsub``
-:collection: collection used to store messages, default ``anyps_messages``
-:collection_size: messages collection size in bytes, default ``10MB``
+    host: hostname or full mongodb url
+    port: mongodb port
+    max-pool-size: connection pool max connections
+    client: an already created pymongo MongoClient
+    database: database used to store messages, default anypubsub
+    collection: collection used to store messages, default anyps_messages
+    collection_size: messages collection size in bytes, default 10MB
