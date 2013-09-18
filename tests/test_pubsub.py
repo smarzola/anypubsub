@@ -5,21 +5,21 @@ import unittest
 class TestPubSub(unittest.TestCase):
     def test_create_pubsub(self):
         from anypubsub import create_pubsub
-        from anypubsub.backends.redis import RedisPubSub
-        pubsub = create_pubsub('redis')
-        assert isinstance(pubsub, RedisPubSub)
+        from anypubsub.backends.memory import MemoryPubSub
+        pubsub = create_pubsub('memory')
+        assert isinstance(pubsub, MemoryPubSub)
 
     def test_create_pubsub_from_settings(self):
         from anypubsub import create_pubsub_from_settings
-        from anypubsub.backends.redis import RedisPubSub
-        pubsub = create_pubsub_from_settings({'backend': 'redis'})
-        assert isinstance(pubsub, RedisPubSub)
+        from anypubsub.backends.memory import MemoryPubSub
+        pubsub = create_pubsub_from_settings({'backend': 'memory'})
+        assert isinstance(pubsub, MemoryPubSub)
 
     def test_create_pubsub_from_settings_with_prefix(self):
         from anypubsub import create_pubsub_from_settings
-        from anypubsub.backends.redis import RedisPubSub
-        pubsub = create_pubsub_from_settings({'foo.backend': 'redis'}, prefix='foo.')
-        assert isinstance(pubsub, RedisPubSub)
+        from anypubsub.backends.memory import MemoryPubSub
+        pubsub = create_pubsub_from_settings({'foo.backend': 'memory'}, prefix='foo.')
+        assert isinstance(pubsub, MemoryPubSub)
 
     @patch('anypubsub.pubsub._load_entry_point')
     def test_create_nonexistent_pubsub(self, load_entry_point):
