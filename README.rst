@@ -13,12 +13,12 @@ Usage
 Create a pubsub object::
 
     from anypubsub import create_pubsub
-    pubsub = create_pubsub('redis')
+    pubsub = create_pubsub('memory')
 
 or create a pubsub object from settings::
 
     from anypubsub import create_pubsub_from_settings
-    pubsub = create_pubsub_from_settings({'anypubsub.backend': 'redis'}, prefix='anypubsub.')
+    pubsub = create_pubsub_from_settings({'anypubsub.backend': 'memory'}, prefix='anypubsub.')
 
 Subscribe to a channel::
 
@@ -41,5 +41,29 @@ Publish a message to a channel::
 Supported backends
 ---------------------
 
+* memory
 * redis
 * mongodb
+
+Backend specific optional settings
+-----------------------------------
+
+redis
+"""""""
+
+:host: hostname or full redis url, default: ``localhost``
+:port: default ``6379``
+:db: default ``0``
+:max-connections: connection pool max connections
+:connection-pool: an already created redis-py ConnectionPool
+
+mongodb
+"""""""""
+
+:host: hostname or full mongodb url
+:port: mongodb port
+:max-pool-size: connection pool max connections
+:client: an already created pymongo MongoClient
+:database: database used to store messages, default ``anypubsub``
+:collection: collection used to store messages, default ``anyps_messages``
+:collection_size: messages collection size in bytes, default ``10MB``
