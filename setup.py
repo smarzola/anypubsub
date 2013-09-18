@@ -1,6 +1,8 @@
 from setuptools import setup, find_packages
 import sys, os, multiprocessing
 
+requires = []
+
 py_version = sys.version_info[:2]
 
 PY3 = py_version[0] == 3
@@ -11,6 +13,8 @@ if PY3:
 else:
     if py_version < (2, 6):
         raise RuntimeError('On Python 2, anypubsub requires Python 2.6 or better')
+    if py_version < (2, 7):
+        requires.append('weakrefset')
 
 here = os.path.abspath(os.path.dirname(__file__))
 try:
@@ -18,12 +22,10 @@ try:
 except IOError:
     README = ''
 
-requires = []
-
 setup(
     name='anypubsub',
-    version='0.1',
-    description="A generic interface wrapping multiple different backends to provide a consistent pubsub API.",
+    version='0.2',
+    description="A generic interface wrapping multiple backends to provide a consistent pubsub API.",
     long_description=README,
     # Get strings from http://pypi.python.org/pypi?%3Aaction=list_classifiers
     classifiers=[
@@ -38,7 +40,7 @@ setup(
         'Topic :: Software Development :: Libraries :: Python Modules',
         'License :: OSI Approved :: MIT License',
     ],
-    keywords='',
+    keywords='pubsub pub/sub redis mongodb',
     author='Simone Marzola',
     author_email='marzolasimone@gmail.com',
     url='http://github.com/simock85/anypubsub',
