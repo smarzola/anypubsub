@@ -54,8 +54,8 @@ redis
 :host: hostname or full redis url, default: ``localhost``
 :port: default ``6379``
 :db: default ``0``
-:max-connections: connection pool max connections
-:connection-pool: an already created redis-py ConnectionPool
+:max_connections: connection pool max connections
+:connection_pool: an already created redis-py ConnectionPool
 
 mongodb
 """""""""
