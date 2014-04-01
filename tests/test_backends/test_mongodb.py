@@ -24,3 +24,11 @@ class TestMongoPubSub(unittest.TestCase):
         self.pubsub.publish('b_chan', 'hello universe!')
         assert next(subscriber) == 'hello world!'
         assert next(subscriber) == 'hello universe!'
+
+    def test_not_subscribed_chan(self):
+        subscriber = self.pubsub.subscribe('a_chan', 'c_chan')
+        self.pubsub.publish('a_chan', 'hello world!')
+        self.pubsub.publish('b_chan', 'junk message')
+        self.pubsub.publish('c_chan', 'hello universe!')
+        assert next(subscriber) == 'hello world!'
+        assert next(subscriber) == 'hello universe!'

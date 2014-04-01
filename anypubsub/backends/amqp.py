@@ -1,11 +1,9 @@
-from time import sleep
 from anypubsub import ConfigurationError
 from anypubsub.interfaces import Subscriber, PubSub
 try:
     from urlparse import urlparse
 except ImportError:
     from urllib.parse import urlparse
-
 try:
     from Queue import Queue
 except ImportError:

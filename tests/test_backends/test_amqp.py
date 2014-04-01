@@ -20,9 +20,7 @@ class TestAmqpPubSub(unittest.TestCase):
         assert isinstance(subscriber, AmqpSubscriber)
 
     def test_pubsub(self):
-        from anypubsub import create_pubsub
-        self.pubsub2 = create_pubsub('amqp')
-        subscriber = self.pubsub2.subscribe('a_chan')
+        subscriber = self.pubsub.subscribe('a_chan')
         self.pubsub.publish('a_chan', 'hello world!')
         self.pubsub.publish('a_chan', 'hello universe!')
         assert next(subscriber) == 'hello world!'
@@ -32,5 +30,13 @@ class TestAmqpPubSub(unittest.TestCase):
         subscriber = self.pubsub.subscribe('a_chan', 'b_chan')
         self.pubsub.publish('a_chan', 'hello world!')
         self.pubsub.publish('b_chan', 'hello universe!')
+        assert next(subscriber) == 'hello world!'
+        assert next(subscriber) == 'hello universe!'
+
+    def test_not_subscribed_chan(self):
+        subscriber = self.pubsub.subscribe('a_chan', 'c_chan')
+        self.pubsub.publish('a_chan', 'hello world!')
+        self.pubsub.publish('b_chan', 'junk message')
+        self.pubsub.publish('c_chan', 'hello universe!')
         assert next(subscriber) == 'hello world!'
         assert next(subscriber) == 'hello universe!'
