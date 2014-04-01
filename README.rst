@@ -44,6 +44,7 @@ Supported backends
 * memory
 * redis
 * mongodb
+* amqp (tested with rabbitmq)
 
 Backend specific optional settings
 -----------------------------------
