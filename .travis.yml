@@ -9,5 +9,6 @@ python:
 services:
   - redis-server
   - mongodb
+  - rabbitmq
 
 script: "python setup.py nosetests"

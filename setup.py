@@ -56,6 +56,9 @@ setup(
         'mongodb': [
             'pymongo',
         ],
+        'amqp': [
+            'amqp'
+        ]
     },
     test_suite='nose.collector',
     tests_require = [
@@ -63,6 +66,7 @@ setup(
         'mock',
         'redis',
         'pymongo',
+        'amqp'
     ],
     entry_points="""\
     """,
