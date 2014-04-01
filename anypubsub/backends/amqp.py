@@ -14,10 +14,10 @@ class AmqpSubscriber(Subscriber):
     def __init__(self, amqp_chan, exchanges):
         self.channel = amqp_chan
         self.messages = Queue(maxsize=0)
-        self.qname, _, _ = self.channel.queue_declare()
+        qname, _, _ = self.channel.queue_declare()
         for exchange in exchanges:
-            self.channel.queue_bind(self.qname, exchange)
-        self.channel.basic_consume(queue=self.qname, callback=self.callback)
+            self.channel.queue_bind(qname, exchange)
+        self.channel.basic_consume(queue=qname, callback=self.callback)
 
     def callback(self, msg):
         self.channel.basic_ack(msg.delivery_tag)
@@ -39,6 +39,7 @@ class AmqpPubSub(PubSub):
         kwargs = dict(host=host, userid=userid, password=password, **kwargs)
         if kwargs['host'].startswith('amqp'):
             kwargs = self.parse_url(**kwargs)
+        self.api = AmqpPubSub._api()
         self.connection = self._api().Connection(**kwargs)
 
     @staticmethod
@@ -51,16 +52,17 @@ class AmqpPubSub(PubSub):
                        'password': url.password or 'guest'})
         return kwargs
 
-    @classmethod
-    def _api(cls):
+    @staticmethod
+    def _api():
         return __import__('amqp')
+
+    @staticmethod
+    def _declare_exchanges(chan, *exchanges):
+        for exchange in exchanges:
+            chan.exchange_declare(exchange, 'fanout')
 
     def _get_channel(self):
         return self.connection.channel()
-
-    def _declare_exchanges(self, chan, *exchanges):
-        for exchange in exchanges:
-            chan.exchange_declare(exchange, 'fanout')
 
     def subscribe(self, *channels):
         chan = self._get_channel()
@@ -70,7 +72,7 @@ class AmqpPubSub(PubSub):
     def publish(self, channel, message):
         chan = self._get_channel()
         self._declare_exchanges(chan, channel)
-        msg = self._api().Message(message)
+        msg = self.api.Message(message)
         chan.basic_publish(msg, channel)
         chan.close()
 
