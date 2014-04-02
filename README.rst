@@ -4,6 +4,10 @@ anypubsub
 .. image:: https://travis-ci.org/kuldat/anypubsub.png?branch=master
    :target: https://travis-ci.org/kuldat/anypubsub
 
+.. image:: https://coveralls.io/repos/kuldat/anypubsub/badge.png
+  :target: https://coveralls.io/r/kuldat/anypubsub
+
+
 A generic interface wrapping multiple backends to provide a consistent pubsub API.
 
 

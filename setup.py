@@ -64,9 +64,10 @@ setup(
     tests_require = [
         'nose',
         'mock',
+        'coverage',
         'redis',
         'pymongo',
-        'amqp'
+        'amqp',
     ],
     entry_points="""\
     """,

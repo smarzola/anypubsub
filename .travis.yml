@@ -5,9 +5,16 @@ python:
   - "3.2"
   - "3.3"
 
+install:
+  - pip install coveralls
+
 services:
   - redis-server
   - mongodb
   - rabbitmq
 
-script: "python setup.py nosetests"
+script:
+  coverage run --source=anypubsub setup.py test
+
+after_success:
+  coveralls
