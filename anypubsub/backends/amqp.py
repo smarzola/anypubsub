@@ -46,7 +46,7 @@ class AmqpPubSub(PubSub):
     def parse_url(**kwargs):
         url = urlparse(kwargs['host'])
         if url.scheme != 'amqp':
-            raise ConfigurationError('Invalid redis uri scheme: %s' % url.scheme)
+            raise ConfigurationError('Invalid amqp uri scheme: %s' % url.scheme)
         kwargs.update({'host': url.netloc or 'localhost',
                        'userid': url.username or 'guest',
                        'password': url.password or 'guest'})
