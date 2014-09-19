@@ -4,7 +4,7 @@ from six.moves.queue import Queue
 
 try:
     from weakref import WeakSet
-except ImportError:
+except ImportError:  # pragma: nocover
     from weakrefset import WeakSet
 
 

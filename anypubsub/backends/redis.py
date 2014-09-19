@@ -16,9 +16,6 @@ class RedisSubscriber(Subscriber):
 
     __next__ = next  # PY3
 
-    def __del__(self):
-        del self.pubsub
-
 
 class RedisPubSub(PubSub):
     def __init__(self, host='localhost', port=6379,
