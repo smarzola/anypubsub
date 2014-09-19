@@ -17,7 +17,7 @@ class MongoSubscriber(Subscriber):
                 message = next(self.cursor)
                 if message['type'] == 'message':
                     return message['message']
-            except StopIteration:
+            except StopIteration:  # pragma: no cover
                 time.sleep(1)
 
     __next__ = next  # PY3

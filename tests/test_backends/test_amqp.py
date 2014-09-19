@@ -19,6 +19,12 @@ class TestAmqpPubSub(unittest.TestCase):
         subscriber = self.pubsub.subscribe('a_chan')
         assert isinstance(subscriber, AmqpSubscriber)
 
+    def test_iteration_protocol(self):
+        subscriber = self.pubsub.subscribe('a_chan')
+        self.pubsub.publish('a_chan', 'hello world!')
+        subscriber = iter(subscriber)
+        assert next(subscriber) == 'hello world!'
+
     def test_pubsub(self):
         subscriber = self.pubsub.subscribe('a_chan')
         self.pubsub.publish('a_chan', 'hello world!')

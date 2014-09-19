@@ -1,14 +1,11 @@
-try:
-    from Queue import Queue
-except ImportError:
-    from queue import Queue
+from collections import defaultdict
+from anypubsub.interfaces import PubSub, Subscriber
+from six.moves.queue import Queue
 
 try:
     from weakref import WeakSet
 except ImportError:
     from weakrefset import WeakSet
-
-from anypubsub.interfaces import PubSub, Subscriber
 
 
 class MemorySubscriber(Subscriber):
@@ -29,7 +26,7 @@ class MemorySubscriber(Subscriber):
 
 class MemoryPubSub(PubSub):
     def __init__(self):
-        self.subscribers = {}
+        self.subscribers = defaultdict(lambda: WeakSet())
 
     def publish(self, channel, message):
         subscribers = self.subscribers.get(channel, [])
@@ -40,8 +37,7 @@ class MemoryPubSub(PubSub):
     def subscribe(self, *channels):
         subscriber = MemorySubscriber()
         for channel in channels:
-            subscribers = self.subscribers.setdefault(channel, WeakSet())
-            subscribers.add(subscriber)
+            self.subscribers[channel].add(subscriber)
         return subscriber
 
 backend = MemoryPubSub

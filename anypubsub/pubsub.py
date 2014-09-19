@@ -1,6 +1,6 @@
 try:
     import pkg_resources
-except ImportError:
+except ImportError:  # pragma: nocover
     pkg_resources = None
 
 import sys

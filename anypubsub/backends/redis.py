@@ -1,10 +1,3 @@
-from anypubsub import ConfigurationError
-
-try:
-    from urlparse import urlparse
-except ImportError:
-    from urllib.parse import urlparse
-
 from anypubsub.interfaces import Subscriber, PubSub
 
 
@@ -23,6 +16,9 @@ class RedisSubscriber(Subscriber):
 
     __next__ = next  # PY3
 
+    def __del__(self):
+        del self.pubsub
+
 
 class RedisPubSub(PubSub):
     def __init__(self, host='localhost', port=6379,
@@ -30,32 +26,18 @@ class RedisPubSub(PubSub):
                  connection_pool=None):
         self.api = RedisPubSub._api()
         if connection_pool is None:
-            kwargs = {
-                'host': host,
-                'port': port,
-                'db': db,
-                'password': password,
-                'max_connections': max_connections
-            }
-            if kwargs['host'].startswith('redis'):
-                kwargs = RedisPubSub.parse_url(**kwargs)
-            connection_pool = self.api.ConnectionPool(**kwargs)
+            if host.startswith('redis'):
+                connection_pool = self.api.ConnectionPool.from_url(host)
+            else:
+                kwargs = {
+                    'host': host,
+                    'port': port,
+                    'db': db,
+                    'password': password,
+                    'max_connections': max_connections
+                }
+                connection_pool = self.api.ConnectionPool(**kwargs)
         self.connection_pool = connection_pool
-
-    @staticmethod
-    def parse_url(**kwargs):
-        url = urlparse(kwargs['host'])
-        if url.scheme != 'redis':
-            raise ConfigurationError('Invalid redis uri scheme: %s' % url.scheme)
-        db = kwargs.pop('db')
-        if not db:
-            try:
-                db = int(url.path.replace('/', ''))
-            except (AttributeError, ValueError):
-                db = 0
-        kwargs.update({'host': url.hostname, 'port': int(url.port or 6379),
-                       'db': db, 'password': url.password})
-        return kwargs
 
     @staticmethod
     def _api():

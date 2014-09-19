@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 import sys, os, multiprocessing
 
-requires = []
+requires = ['six']
 
 py_version = sys.version_info[:2]
 
@@ -24,7 +24,7 @@ except IOError:
 
 setup(
     name='anypubsub',
-    version='0.3',
+    version='0.4',
     description="A generic interface wrapping multiple backends to provide a consistent pubsub API.",
     long_description=README,
     # Get strings from http://pypi.python.org/pypi?%3Aaction=list_classifiers
@@ -51,7 +51,7 @@ setup(
     install_requires=requires,
     extras_require={
         'redis': [
-            'redis',
+            'redis > 2.10',
         ],
         'mongodb': [
             'pymongo',
@@ -65,7 +65,7 @@ setup(
         'nose',
         'mock',
         'coverage',
-        'redis',
+        'redis > 2.10',
         'pymongo',
         'amqp',
     ],

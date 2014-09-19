@@ -1,4 +1,4 @@
-from mock import patch
+from mock import patch, Mock
 import unittest
 
 
@@ -35,3 +35,31 @@ class TestPubSub(unittest.TestCase):
         result = _load_backend('foobar')
         load_entry_point.assert_called_with('foobar')
         assert result == 'foobar_module'
+        
+    @patch('anypubsub.pubsub.pkg_resources')
+    def test_load_entry_point(self, pkg_resources):
+        from anypubsub.pubsub import _load_entry_point
+
+        foo_mock = Mock(spec=['name', 'load'])
+        foo_mock.name = 'foo'
+        foo_mock.load.return_value = 'bar'
+        pkg_resources.iter_entry_points.return_value = [foo_mock]
+        result = _load_entry_point('foo')
+        self.assertEqual(result, 'bar')
+
+    @patch('anypubsub.pubsub.pkg_resources')
+    def test_load_nonexistent_entry_point(self, pkg_resources):
+        from anypubsub.pubsub import _load_entry_point
+
+        foo_mock = Mock(spec=['name', 'load'])
+        foo_mock.name = 'foo'
+        pkg_resources.iter_entry_points.return_value = [foo_mock]
+        result = _load_entry_point('bar')
+        self.assertEqual(result, None)
+
+    @patch('anypubsub.pubsub.pkg_resources', new=None)
+    def test_load__entry_point_with_no_pkg_resources(self):
+        from anypubsub.pubsub import _load_entry_point
+
+        result = _load_entry_point('bar')
+        self.assertEqual(result, None)

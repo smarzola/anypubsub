@@ -1,13 +1,7 @@
 from anypubsub import ConfigurationError
 from anypubsub.interfaces import Subscriber, PubSub
-try:
-    from urlparse import urlparse
-except ImportError:
-    from urllib.parse import urlparse
-try:
-    from Queue import Queue
-except ImportError:
-    from queue import Queue
+from six.moves.urllib.parse import urlparse
+from six.moves.queue import Queue
 
 
 class AmqpSubscriber(Subscriber):

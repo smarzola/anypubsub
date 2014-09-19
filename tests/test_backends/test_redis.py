@@ -11,6 +11,12 @@ class TestRedisPubSub(unittest.TestCase):
         subscriber = self.pubsub.subscribe('a_chan')
         assert isinstance(subscriber, RedisSubscriber)
 
+    def test_iteration_protocol(self):
+        subscriber = self.pubsub.subscribe('a_chan')
+        self.pubsub.publish('a_chan', 'hello world!')
+        subscriber = iter(subscriber)
+        assert next(subscriber) == b'hello world!'
+
     def test_redis_from_url(self):
         self.pubsub = None
         from anypubsub import create_pubsub
@@ -40,9 +46,3 @@ class TestRedisPubSub(unittest.TestCase):
         self.pubsub.publish('c_chan', 'hello universe!')
         assert next(subscriber) == b'hello world!'
         assert next(subscriber) == b'hello universe!'
-
-    def test_dispose_subscriber(self):
-        subscriber = self.pubsub.subscribe('a_chan')
-        assert self.pubsub.publish('a_chan', 'hello world!') == 1
-        del subscriber
-        assert self.pubsub.publish('a_chan', 'hello world!') == 0
