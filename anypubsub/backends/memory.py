@@ -9,8 +9,8 @@ except ImportError:  # pragma: nocover
 
 
 class MemorySubscriber(Subscriber):
-    def __init__(self):
-        self.messages = Queue(maxsize=0)
+    def __init__(self, queue_factory):
+        self.messages = queue_factory(maxsize=0)
 
     def __iter__(self):
         return self
@@ -25,8 +25,9 @@ class MemorySubscriber(Subscriber):
 
 
 class MemoryPubSub(PubSub):
-    def __init__(self):
+    def __init__(self, queue_factory=Queue):
         self.subscribers = defaultdict(lambda: WeakSet())
+        self.queue_factory = queue_factory
 
     def publish(self, channel, message):
         subscribers = self.subscribers.get(channel, [])
@@ -35,7 +36,7 @@ class MemoryPubSub(PubSub):
         return len(subscribers)
 
     def subscribe(self, *channels):
-        subscriber = MemorySubscriber()
+        subscriber = MemorySubscriber(self.queue_factory)
         for channel in channels:
             self.subscribers[channel].add(subscriber)
         return subscriber
