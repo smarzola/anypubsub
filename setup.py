@@ -24,7 +24,7 @@ except IOError:
 
 setup(
     name='anypubsub',
-    version='0.4',
+    version='0.5',
     description="A generic interface wrapping multiple backends to provide a consistent pubsub API.",
     long_description=README,
     # Get strings from http://pypi.python.org/pypi?%3Aaction=list_classifiers

@@ -30,7 +30,7 @@ class MemoryPubSub(PubSub):
         self.queue_factory = queue_factory
 
     def publish(self, channel, message):
-        subscribers = self.subscribers.get(channel, [])
+        subscribers = self.subscribers[channel]
         for subscriber in subscribers:
             subscriber.put(message)
         return len(subscribers)
