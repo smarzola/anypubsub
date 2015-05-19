@@ -54,7 +54,7 @@ setup(
             'redis > 2.10',
         ],
         'mongodb': [
-            'pymongo',
+            'pymongo < 3',
         ],
         'amqp': [
             'amqp'
@@ -66,7 +66,7 @@ setup(
         'mock',
         'coverage',
         'redis > 2.10',
-        'pymongo',
+        'pymongo < 3',
         'amqp',
     ],
     entry_points="""\
