@@ -1,11 +1,11 @@
 anypubsub
 =========
 
-.. image:: https://travis-ci.org/kuldat/anypubsub.png?branch=master
-   :target: https://travis-ci.org/kuldat/anypubsub
+.. image:: https://travis-ci.org/smarzola/anypubsub.png?branch=master
+   :target: https://travis-ci.org/smarzola/anypubsub
 
-.. image:: https://coveralls.io/repos/kuldat/anypubsub/badge.png?branch=master
-  :target: https://coveralls.io/r/kuldat/anypubsub?branch=master
+.. image:: https://coveralls.io/repos/github/smarzola/anypubsub/badge.svg?branch=master
+   :target: https://coveralls.io/github/smarzola/anypubsub?branch=master
 
 
 A generic interface wrapping multiple backends to provide a consistent pubsub API.
