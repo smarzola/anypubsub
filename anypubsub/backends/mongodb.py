@@ -1,12 +1,15 @@
 from datetime import datetime
 import time
 from anypubsub.interfaces import PubSub, Subscriber
+from pymongo import CursorType
 
 
 class MongoSubscriber(Subscriber):
     def __init__(self, collection, channels):
+        import pymongo
+        pymongo_version = int(pymongo.__version__.split('.')[0])
         self.cursor = collection.find({'channel': {'$in': channels}, 'when': {'$gte': datetime.utcnow()}},
-                                      tailable=True, await_data=True)
+                                      cursor_type = CursorType.TAILABLE_AWAIT)
 
     def __iter__(self):
         return self
@@ -24,12 +27,12 @@ class MongoSubscriber(Subscriber):
 
 
 class MongoPubSub(PubSub):
-    def __init__(self, host=None, port=None, max_pool_size=100,
+    def __init__(self, host=None, port=None, maxPoolSize=100,
                  client=None, database='anypubsub', collection='anyps_messages',
                  collection_size=10 * 2 ** 20):
         self.api = MongoPubSub._api()
         if client is None:
-            client = self.api.MongoClient(host=host, port=port, max_pool_size=max_pool_size)
+            client = self.api.MongoClient(host=host, port=port, maxPoolSize=maxPoolSize)
         db = client[database]
         try:
             db.create_collection(collection, size=collection_size, capped=True)
