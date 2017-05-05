@@ -8,8 +8,8 @@ py_version = sys.version_info[:2]
 PY3 = py_version[0] == 3
 
 if PY3:
-    if py_version < (3, 2):
-        raise RuntimeError('On Python 3, anypubsub requires Python 3.2 or better')
+    if py_version < (3, 3):
+        raise RuntimeError('On Python 3, anypubsub requires Python 3.3 or better')
 else:
     if py_version < (2, 6):
         raise RuntimeError('On Python 2, anypubsub requires Python 2.6 or better')
@@ -34,7 +34,6 @@ setup(
         "Programming Language :: Python",
         "Programming Language :: Python :: 2.6",
         "Programming Language :: Python :: 2.7",
-        "Programming Language :: Python :: 3.2",
         "Programming Language :: Python :: 3.3",
         "Programming Language :: Python :: 3.4",
         "Programming Language :: Python :: Implementation :: CPython",
@@ -54,10 +53,10 @@ setup(
             'redis > 2.10',
         ],
         'mongodb': [
-            'pymongo < 3',
+            'pymongo >= 3',
         ],
         'amqp': [
-            'amqp'
+            'amqp >= 1.4.9'
         ]
     },
     test_suite='nose.collector',
@@ -66,8 +65,8 @@ setup(
         'mock',
         'coverage',
         'redis > 2.10',
-        'pymongo < 3',
-        'amqp',
+        'pymongo >= 3',
+        'amqp >= 1.4.9',
     ],
     entry_points="""\
     """,
