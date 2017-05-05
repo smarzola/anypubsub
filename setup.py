@@ -11,10 +11,8 @@ if PY3:
     if py_version < (3, 3):
         raise RuntimeError('On Python 3, anypubsub requires Python 3.3 or better')
 else:
-    if py_version < (2, 6):
-        raise RuntimeError('On Python 2, anypubsub requires Python 2.6 or better')
     if py_version < (2, 7):
-        requires.append('weakrefset')
+        raise RuntimeError('On Python 2, anypubsub requires Python 2.7 or better')
 
 here = os.path.abspath(os.path.dirname(__file__))
 try:
@@ -24,7 +22,7 @@ except IOError:
 
 setup(
     name='anypubsub',
-    version='0.5',
+    version='0.6',
     description="A generic interface wrapping multiple backends to provide a consistent pubsub API.",
     long_description=README,
     # Get strings from http://pypi.python.org/pypi?%3Aaction=list_classifiers
@@ -32,10 +30,11 @@ setup(
         'Development Status :: 3 - Alpha',
         "Intended Audience :: Developers",
         "Programming Language :: Python",
-        "Programming Language :: Python :: 2.6",
         "Programming Language :: Python :: 2.7",
         "Programming Language :: Python :: 3.3",
         "Programming Language :: Python :: 3.4",
+        "Programming Language :: Python :: 3.5",
+        "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: Implementation :: CPython",
         'Topic :: Software Development :: Libraries :: Python Modules',
         'License :: OSI Approved :: MIT License',
