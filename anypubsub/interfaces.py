@@ -17,4 +17,4 @@ class PubSub(object):
 
     @abstractmethod
     def subscribe(self, *channels):
-        """Subscribe to one or many channels and return a `Subscriber` object"""
+        """Subscribe to one or many channels and return a Subscriber object"""

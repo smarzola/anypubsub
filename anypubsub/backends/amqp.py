@@ -1,4 +1,3 @@
-from anypubsub import ConfigurationError
 from anypubsub.interfaces import Subscriber, PubSub
 from six.moves.urllib.parse import urlparse
 from six.moves.queue import Queue
@@ -29,8 +28,10 @@ class AmqpSubscriber(Subscriber):
 
 
 class AmqpPubSub(PubSub):
-    def __init__(self, host='localhost', userid='guest', password='guest', **kwargs):
-        kwargs = dict(host=host, userid=userid, password=password, **kwargs)
+    def __init__(self, host='localhost', userid='guest',
+                 password='guest', **kwargs):
+        kwargs = dict(host=host, userid=userid,
+                      password=password, **kwargs)
         if kwargs['host'].startswith('amqp'):
             kwargs = self.parse_url(**kwargs)
         self.api = AmqpPubSub._api()

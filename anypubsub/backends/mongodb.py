@@ -6,10 +6,9 @@ from pymongo import CursorType
 
 class MongoSubscriber(Subscriber):
     def __init__(self, collection, channels):
-        import pymongo
-        pymongo_version = int(pymongo.__version__.split('.')[0])
-        self.cursor = collection.find({'channel': {'$in': channels}, 'when': {'$gte': datetime.utcnow()}},
-                                      cursor_type = CursorType.TAILABLE_AWAIT)
+        self.cursor = collection.find({'channel': {'$in': channels},
+                                       'when': {'$gte': datetime.utcnow()}},
+                                      cursor_type=CursorType.TAILABLE_AWAIT)
 
     def __iter__(self):
         return self
@@ -28,11 +27,13 @@ class MongoSubscriber(Subscriber):
 
 class MongoPubSub(PubSub):
     def __init__(self, host=None, port=None, maxPoolSize=100,
-                 client=None, database='anypubsub', collection='anyps_messages',
+                 client=None, database='anypubsub',
+                 collection='anyps_messages',
                  collection_size=10 * 2 ** 20):
         self.api = MongoPubSub._api()
         if client is None:
-            client = self.api.MongoClient(host=host, port=port, maxPoolSize=maxPoolSize)
+            client = self.api.MongoClient(host=host, port=port,
+                                          maxPoolSize=maxPoolSize)
         db = client[database]
         try:
             db.create_collection(collection, size=collection_size, capped=True)
@@ -45,14 +46,13 @@ class MongoPubSub(PubSub):
         return __import__('pymongo')
 
     def publish(self, channel, message):
-        self.collection.insert({'type': 'message', 'channel': channel, 'message': message, 'when': datetime.utcnow()})
+        self.collection.insert({'type': 'message',
+                                'channel': channel,
+                                'message': message,
+                                'when': datetime.utcnow()})
 
     def subscribe(self, *channels):
         return MongoSubscriber(self.collection, channels)
 
 
 backend = MongoPubSub
-
-
-
-
